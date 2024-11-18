@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkLink</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .navbar {
+            background-color: #007bff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand img {
+            height: 30px;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+        }
+        .navbar-nav .nav-link:hover {
+            background-color: #495057;
+        }
+        .navbar-nav .nav-link.active {
+            font-weight: bold;
+            background-color: #0056b3;
+        }
+        .main-content {
+            padding: 20px;
+            flex-grow: 1;
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .upload-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        #file-upload {
+            margin-bottom: 10px;
+        }
+        .upload-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .upload-button:hover {
+            background-color: #0056b3;
+        }
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        .file-name {
+            flex-grow: 1;
+        }
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html"><img src="img/logo.png" alt="Logo">WorkLink</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="email.html">Correo</a></li>
+                <li class="nav-item"><a class="nav-link" href="chat.html">Chat</a></li>
+                <li class="nav-item"><a class="nav-link" href="sensores.html">Sensores</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Configuración</a></li>
+                <li class="nav-item"><a class="nav-link" href="monitor.html">Monitor</a></li>
+                <li class="nav-item"><a class="nav-link active" href="documents.html">Documentos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="upload-container">
+            <input type="file" id="file-upload" class="form-control-file mb-2">
+            <button class="upload-button" onclick="uploadFile()">Subir Documento</button>
+        </div>
+        <div id="file-list">
+            <!-- Lista de documentos -->
+            <p>No hay documentos compartidos aún.</p>
+        </div>
+    </main>
+
+    <script>
+        const fileList = document.getElementById('file-list');
+
+        function uploadFile() {
+            const fileInput = document.getElementById('file-upload');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Por favor, selecciona un archivo para subir.');
+                return;
+            }
+
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+
+            const fileName = document.createElement('span');
+            fileName.className = 'file-name';
+            fileName.textContent = file.name;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.onclick = () => {
+                if (confirm('¿Estás seguro de que deseas eliminar este documento?')) {
+                    fileItem.remove();
+                    checkEmptyList();
+                }
+            };
+
+            fileItem.appendChild(fileName);
+            fileItem.appendChild(deleteButton);
+            fileList.appendChild(fileItem);
+            fileInput.value = ''; // Limpia el input de archivo
+            checkEmptyList();
+        }
+
+        function checkEmptyList() {
+            if (fileList.children.length === 0) {
+                fileList.innerHTML = '<p>No hay documentos compartidos aún.</p>';
+            } else {
+                const noFilesText = fileList.querySelector('p');
+                if (noFilesText) {
+                    noFilesText.remove();
+                }
+            }
+        }
+    </script>
+
+    <footer>
+        <p>© 2024 WorkLink. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

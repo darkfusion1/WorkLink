@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkLink</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            max-width: 50px;
+            margin-right: 10px;
+        }
+        .navbar {
+            background-color: #007bff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand img {
+            height: 30px;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+        }
+        .navbar-nav .nav-link:hover {
+            background-color: #495057;
+        }
+        .navbar-nav .nav-link.active {
+            font-weight: bold;
+            background-color: #0056b3;
+        }
+        .main-content {
+            padding: 20px;
+            flex-grow: 1;
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 400px; /* Altura ajustada */
+            width: 100%;
+            margin-top: 20px;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html"><img src="img/logo.png" alt="Logo">WorkLink</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="email.html">Correo</a></li>
+                <li class="nav-item"><a class="nav-link" href="chat.html">Chat</a></li>
+                <li class="nav-item"><a class="nav-link" href="sensores.html">Sensores</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Configuración</a></li>
+                <li class="nav-item"><a class="nav-link active" href="monitor.html">Monitor</a></li>
+                <li class="nav-item"><a class="nav-link" href="documents.html">Documentos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h2>Monitoreo del Ambiente Laboral</h2>
+        <p>Visualiza el estado en tiempo real de los factores ambientales.</p>
+
+        <!-- Gráfico de monitoreo -->
+        <div class="chart-container">
+            <canvas id="environmentChart"></canvas>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 WorkLink</p>
+    </footer>
+
+    <!-- Agregar scripts de Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Script para el gráfico -->
+    <script>
+        const ctx = document.getElementById('environmentChart').getContext('2d');
+        const environmentChart = new Chart(ctx, {
+            type: 'line', // Tipo de gráfico
+            data: {
+                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'], // Etiquetas
+                datasets: [{
+                    label: 'Temperatura (°C)',
+                    data: [22, 24, 20, 23, 25, 21], // Datos de ejemplo
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 2,
+                    fill: true
+                }, {
+                    label: 'Humedad (%)',
+                    data: [50, 55, 60, 58, 53, 57], // Datos de ejemplo
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Agregar scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

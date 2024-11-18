@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correo - WorkLink</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            max-width: 50px;
+            margin-right: 10px;
+        }
+        .navbar {
+            background-color: #007bff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand img {
+            height: 30px;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+        }
+        .navbar-nav .nav-link:hover {
+            background-color: #495057;
+        }
+        .navbar-nav .nav-link.active {
+            font-weight: bold;
+            background-color: #0056b3;
+        }
+        .main-content {
+            padding: 20px;
+            flex-grow: 1;
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><img src="img/logo.png" alt="Logo"> WorkLink</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="email.html">Correo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="chat.html">Chat</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="sensores.html">Sensores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html">Configuracion</a></li> 
+                    <li class="nav-item"><a class="nav-link" href="monitor.html">Monitor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="documents.html">Documentos</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <main class="main-content">
+        <h2>Gestión de Sensores</h2>
+        <p>Monitorea y gestiona los sensores conectados a tu sistema en tiempo real.</p>
+
+        <!-- Filtro de sensores -->
+        <form class="form-inline mb-3">
+            <label for="sensorType" class="mr-2">Filtrar por tipo:</label>
+            <select id="sensorType" class="form-control mr-2">
+                <option value="all">Todos</option>
+                <option value="temperature">Temperatura</option>
+                <option value="humidity">Humedad</option>
+            </select>
+            <button type="button" class="btn btn-primary" onclick="filterSensors()">Filtrar</button>
+        </form>
+
+        <!-- Tabla de sensores -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre del Sensor</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Valor Actual</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="sensorTableBody">
+                <tr data-type="temperature">
+                    <td>Sensor de Temperatura</td>
+                    <td>Temperatura</td>
+                    <td><span class="badge badge-success">Activo</span></td>
+                    <td>25°C</td>
+                    <td><button class="btn btn-primary btn-sm" onclick="updateSensor('Temperatura')">Actualizar</button></td>
+                </tr>
+                <tr data-type="humidity">
+                    <td>Sensor de Humedad</td>
+                    <td>Humedad</td>
+                    <td><span class="badge badge-warning">En espera</span></td>
+                    <td>60%</td>
+                    <td><button class="btn btn-primary btn-sm" onclick="updateSensor('Humedad')">Actualizar</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Gráfico de monitoreo -->
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw;">
+            <canvas id="sensorChart"></canvas>
+        </div>
+
+        <!-- Botones de control -->
+        <div class="sensor-controls">
+            <button class="btn btn-success" onclick="toggleAllSensors('on')">Activar Todos los Sensores</button>
+            <button class="btn btn-danger" onclick="toggleAllSensors('off')">Desactivar Todos los Sensores</button>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Filtrar sensores
+        function filterSensors() {
+            const sensorType = document.getElementById('sensorType').value;
+            const rows = document.querySelectorAll('#sensorTableBody tr');
+            rows.forEach(row => {
+                const type = row.getAttribute('data-type');
+                if (sensorType === 'all' || sensorType === type) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Actualizar sensor
+        function updateSensor(type) {
+            alert('Actualizando sensor de tipo ' + type);
+        }
+
+        // Activar o desactivar todos los sensores
+        function toggleAllSensors(status) {
+            const sensors = document.querySelectorAll('#sensorTableBody tr');
+            sensors.forEach(sensor => {
+                const stateBadge = sensor.querySelector('span');
+                if (status === 'on') {
+                    stateBadge.textContent = 'Activo';
+                    stateBadge.classList.remove('badge-warning');
+                    stateBadge.classList.add('badge-success');
+                } else {
+                    stateBadge.textContent = 'En espera';
+                    stateBadge.classList.remove('badge-success');
+                    stateBadge.classList.add('badge-warning');
+                }
+            });
+        }
+
+        // Configuración del gráfico
+        const ctx = document.getElementById('sensorChart').getContext('2d');
+        const sensorChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['12:00', '12:05', '12:10', '12:15', '12:20'],
+                datasets: [{
+                    label: 'Temperatura (°C)',
+                    data: [22, 23, 24, 26, 25],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Hora'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Valores'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 WorkLink</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
