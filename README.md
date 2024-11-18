@@ -12,8 +12,6 @@ Este es un prototipo en desarrollo, por lo que algunas funcionalidades pueden es
 ## Tecnologías Utilizadas
 
 Frontend: HTML5, CSS3, JavaScript, Bootstrap
-Backend: PHP (para manejar sesiones, autenticación, y tareas en servidor)
-Almacenamiento: JSON para almacenamiento de usuarios, tareas y datos del chat.
 Correo Electrónico: Integración con SMTP para enviar y recibir correos.
 Cordova: Para convertir la aplicación web en una aplicación móvil.
 
