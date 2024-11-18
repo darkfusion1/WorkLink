@@ -21,25 +21,14 @@ Cordova: Para convertir la aplicación web en una aplicación móvil.
 
 worklink/
 -- css
-   -- style.css
+-- style.css
 -- js
-   -- app.js
-   -- emailHandler.js
-   -- index.js
-   -- main.js
-   -- smtp.js
--- php
-   -- add_task.php
-   -- delete_all_tasks.php
-   -- get_user.php
-   -- login.php
-   -- logout.php
-   -- register.php
-   -- save_task.php
-   -- tasks.php
+-- app.js
+-- emailHandler.js
+-- index.js
+-- main.js
+-- smtp.js
 -- data
-   -- tasks.json
-   -- users.json
 -- index.php
 -- login.html
 -- register.html
@@ -103,7 +92,7 @@ Para interactuar con todas las funcionalidades del sitio, debes seguir estos pas
   - **Solución**: Utilicé Apache Cordova para empaquetar la aplicación web como una app móvil, permitiendo su ejecución en dispositivos Android e iOS.
 
 - **Problema**: Manejo de correos electrónicos y chat
-  - **Solución**: Usé integración con SMTP para el envío de correos electrónicos y un sistema de chat basado en WebSockets para interacción en tiempo rea
+  - **Solución**: Usé integración con SMTP para el envío de correos electrónicos y un sistema de chat basado en WebSockets para interacción en tiempo real.
 
 ## Documentación Adicional
 
